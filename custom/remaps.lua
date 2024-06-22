@@ -13,3 +13,4 @@ vim.keymap.set("n", "<C-n>", function()
 end)
 
 vim.keymap.set("n", "<leader>h", vim.cmd.ToggleTerm)
+
