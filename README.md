@@ -1,6 +1,6 @@
 ## AwesomeVim - For Ultimate Power Users 
 
-AwesomeVim is a lightweight, bloatfree customized editor built on top of Vanila NeoVim. 
+AwesomeVim is a cross-platform, lightweight, bloat-free customized editor built on Vanilla NeoVim. This is the configuration that I use daily, and feel free to use it, customize it, and even have a pull request for any additions and recommendations.  
 
 ## Installation 
 
