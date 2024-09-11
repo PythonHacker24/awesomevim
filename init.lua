@@ -16,7 +16,8 @@ require "config.treesitter"
 require "config.lsp"
 
 -- NVIM CMD 
-vim.cmd.colorscheme "catppuccin-mocha"
+-- vim.cmd.colorscheme "catppuccin-mocha"
+vim.cmd.colorscheme "nord"
 
 -- Configure Smooth Scrolling 
 require('neoscroll').setup({
