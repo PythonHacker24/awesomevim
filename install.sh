@@ -49,4 +49,4 @@ else
     exit 1
 fi
 
-
+echo 'require("startup").setup({theme = "awesome"})' >> "$HOME/.config/nvim/init.lua"

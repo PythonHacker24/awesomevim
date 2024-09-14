@@ -117,4 +117,4 @@ require('lualine').setup {
 }
 
 -- Startup 
-require("startup").setup({theme = "awesome"})
+-- require("startup").setup({theme = "awesome"})
