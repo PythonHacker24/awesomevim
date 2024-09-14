@@ -104,15 +104,18 @@ require('lualine').setup {
     lualine_z = {'location'}
   },
   inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {'filename'},
-    lualine_x = {'location'},
-    lualine_y = {},
-    lualine_z = {}
+    lualine_x = {'encoding', 'fileformat', 'filetypes'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
   },
   tabline = {},
   winbar = {},
   inactive_winbar = {},
   extensions = {}
 }
+
+-- Startup 
+require("startup").setup({theme = "dashboard"}) -- put theme name here

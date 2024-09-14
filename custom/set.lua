@@ -2,6 +2,9 @@
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
+-- Yank and Clipboard Connection 
+vim.opt.clipboard = "unnamedplus"
+
 -- Tab Configuration 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
