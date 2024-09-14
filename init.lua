@@ -15,9 +15,8 @@ require "config.telescope"
 require "config.treesitter"
 require "config.lsp"
 
--- NVIM CMD 
--- vim.cmd.colorscheme "catppuccin-mocha"
-vim.cmd.colorscheme "nord"
+-- Default Theme - Catppuccin Mocha 
+vim.cmd.colorscheme "catppuccin-mocha"
 
 -- Configure Smooth Scrolling 
 require('neoscroll').setup({
@@ -118,4 +117,4 @@ require('lualine').setup {
 }
 
 -- Startup 
-require("startup").setup({theme = "dashboard"}) -- put theme name here
+require("startup").setup({theme = "awesome"})
