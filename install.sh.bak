@@ -2,7 +2,6 @@
 
 echo "Welcome to Awesome Vim .... Checking for base requirements"
 
-# Function to check for GCC or Clang compiler
 check_compiler() {
     if command -v gcc &> /dev/null; then
         echo "GCC is installed."
@@ -40,70 +39,19 @@ else
     exit 1
 fi
 
-# Check if .config directory exists
-CONFIG_DIR="$HOME/.config"
-NVIM_DIR="$CONFIG_DIR/nvim"
+git clone https://github.com/PythonHacker24/awesomevim.git "$HOME/.config/nvim"
 
-if [[ -d "$CONFIG_DIR" ]]; then
-    echo ".config directory exists."
-    
-    # Check if nvim directory exists inside .config
-    if [[ -d "$NVIM_DIR" ]]; then
-        echo "nvim directory already exists in .config."
-        
-        # Ask user if they want to delete nvim and install Awesome Vim
-        read -p "Do you want to delete the existing nvim configuration and install Awesome Vim? (y/n): " yn
-        case $yn in
-            [Yy]* ) 
-                echo "Deleting existing nvim configuration..."
-                rm -rf "$NVIM_DIR" || { echo "Failed to delete nvim directory"; exit 1; }
-                ;;
-            [Nn]* ) 
-                echo "Aborting installation."
-                exit 0
-                ;;
-            * ) 
-                echo "Please answer yes or no."
-                exit 1
-                ;;
-        esac
-    fi
-
-else
-    echo ".config directory does not exist."
-    
-    # Ask user if they want to create the .config directory
-    read -p "Do you want to create the .config directory? (y/n): " yn
-    case $yn in
-        [Yy]* )
-            mkdir -p "$CONFIG_DIR" || { echo "Failed to create .config directory"; exit 1; }
-            echo ".config directory created."
-            ;;
-        [Nn]* )
-            echo "Aborting installation."
-            exit 0
-            ;;
-        * )
-            echo "Please answer yes or no."
-            exit 1
-            ;;
-    esac
-fi
-
-# Clone Awesome Vim configuration into .config/nvim
-echo "Cloning Awesome Vim..."
-git clone https://github.com/PythonHacker24/awesomevim.git "$NVIM_DIR" || { echo "Failed to clone Awesome Vim repository"; exit 1; }
+# Path to your Neovim configuration directory
+NVIM_CONFIG_DIR="$HOME/.config/nvim"
 
 # Source packer.lua and run PackerSync
-echo "Running PackerSync..."
 nvim -c 'luafile ~/.config/nvim/custom/packer.lua' -c 'PackerSync'
 echo "Plugins installed successfully!"
 
-# Configuring AwesomeVim
-echo "Configuring AwesomeVim..."
+echo "Configuring AwesomeVim"
 
-# Source and destination file paths
-SOURCE_FILE="$NVIM_DIR/custom/awesome.lua"
+# Source and file path
+SOURCE_FILE="$HOME/.config/nvim/custom/awesome.lua"
 DEST_FILE="lua/startup/themes/awesome.lua"
 
 # Function to copy the file
@@ -113,7 +61,7 @@ copy_file() {
     cp "$SOURCE_FILE" "$dest_dir/$DEST_FILE" || { echo "Failed to copy file"; exit 1; }
 }
 
-# Detect the OS and determine destination path for copying files
+# Detect the OS
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     # Linux detected
     echo "Detected Linux"
@@ -137,9 +85,6 @@ else
     exit 1
 fi
 
-# Update init.lua to use Awesome theme
 echo 'require("startup").setup({theme = "awesome"})' >> "$HOME/.config/nvim/init.lua"
 
-# Open Neovim to complete the setup
-echo "Opening Neovim..."
 nvim
