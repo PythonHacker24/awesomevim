@@ -15,6 +15,10 @@ require "config.telescope"
 require "config.treesitter"
 require "config.lsp"
 
+-- Undo Configuration
+vim.opt.undofile = true
+vim.opt.undodir = os.getenv("HOME") .. "/.undodir"
+
 -- Default Theme - Catppuccin Mocha 
 vim.cmd.colorscheme "catppuccin-mocha"
 

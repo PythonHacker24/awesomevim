@@ -40,6 +40,17 @@ else
     exit 1
 fi
 
+UNDO_DIR="$HOME/.undodir"
+
+# Check if the directory exists
+if [[ -d "$UNDO_DIR" ]]; then
+    echo "$UNDO_DIR already exists."
+else
+    echo "$UNDO_DIR does not exist. Creating it now..."
+    mkdir -p "$UNDO_DIR" || { echo "Failed to create $UNDO_DIR"; exit 1; }
+    echo "$UNDO_DIR created successfully."
+fi
+
 # Check if .config directory exists
 CONFIG_DIR="$HOME/.config"
 NVIM_DIR="$CONFIG_DIR/nvim"
