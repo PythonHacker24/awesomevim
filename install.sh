@@ -125,7 +125,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     # Linux detected
     echo "Detected Linux"
     dest_dir="$HOME/.local/share/nvim/site/pack/packer/start/startup.nvim"
-    copy_file "$dest_dir"
+    copy_file "$dest_dir" || echo { echo "Failed to copy Awesome Vim ... exiting"; exit 1}
 
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     # macOS detected
