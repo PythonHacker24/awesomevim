@@ -51,6 +51,7 @@ else
     echo "$UNDO_DIR created successfully."
 fi
 
+# Paths to .config and nvim directories
 CONFIG_DIR="$HOME/.config"
 NVIM_DIR="$CONFIG_DIR/nvim"
 
