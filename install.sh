@@ -102,6 +102,13 @@ echo "Plugins installed successfully!"
 # Configuring AwesomeVim
 echo "Configuring AwesomeVim..."
 
+
+# Update init.lua to use Awesome theme
+echo 'require("startup").setup({theme = "awesome"})' >> "$HOME/.config/nvim/init.lua"
+
+# Open Neovim to complete the setup
+echo "Opening Neovim..."
+
 # Source and destination file paths
 SOURCE_FILE="$NVIM_DIR/custom/awesome.lua"
 DEST_FILE="lua/startup/themes/awesome.lua"
@@ -137,9 +144,4 @@ else
     exit 1
 fi
 
-# Update init.lua to use Awesome theme
-echo 'require("startup").setup({theme = "awesome"})' >> "$HOME/.config/nvim/init.lua"
-
-# Open Neovim to complete the setup
-echo "Opening Neovim..."
 nvim
