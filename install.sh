@@ -96,7 +96,8 @@ git clone https://github.com/PythonHacker24/awesomevim.git "$NVIM_DIR" || { echo
 
 # Source packer.lua and run PackerSync
 echo "Running PackerSync..."
-nvim -c 'luafile ~/.config/nvim/custom/packer.lua' -c 'PackerSync'
+#nvim -c 'luafile ~/.config/nvim/custom/packer.lua' -c 'PackerSync' -c ""
+nvim -c 'luafile ~/.config/nvim/custom/packer.lua' -c 'PackerSync' -c 'autocmd User PackerComplete quitall'
 echo "Plugins installed successfully!"
 
 # Configuring AwesomeVim
