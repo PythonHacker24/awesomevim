@@ -51,55 +51,62 @@ else
     echo "$UNDO_DIR created successfully."
 fi
 
-# Check if .config directory exists
 CONFIG_DIR="$HOME/.config"
 NVIM_DIR="$CONFIG_DIR/nvim"
 
+# Check if the .config directory exists
 if [[ -d "$CONFIG_DIR" ]]; then
     echo ".config directory exists."
-    
-    # Check if nvim directory exists inside .config
+
+    # Check if the nvim directory exists inside .config
     if [[ -d "$NVIM_DIR" ]]; then
         echo "nvim directory already exists in .config."
         
-        # Ask user if they want to delete nvim and install Awesome Vim
-        read -p "Do you want to delete the existing nvim configuration and install Awesome Vim? (y/n): " yn
+        # Ask the user if they want to delete the existing nvim directory and install Awesome Vim
+        while true; do
+            read -p "Do you want to delete the existing nvim configuration and install Awesome Vim? (y/n): " yn
+            case $yn in
+                [Yy]* ) 
+                    echo "Deleting existing nvim configuration..."
+                    rm -rf "$NVIM_DIR" || { echo "Failed to delete nvim directory"; exit 1; }
+                    echo "nvim directory deleted."
+                    break
+                    ;;
+                [Nn]* ) 
+                    echo "Aborting installation."
+                    exit 0
+                    ;;
+                * ) 
+                    echo "Please answer with 'y' for yes or 'n' for no."
+                    ;;
+            esac
+        done
+    fi
+
+else
+    echo ".config directory does not exist."
+
+    # Ask the user if they want to create the .config directory
+    while true; do
+        read -p "Do you want to create the .config directory? (y/n): " yn
         case $yn in
             [Yy]* ) 
-                echo "Deleting existing nvim configuration..."
-                rm -rf "$NVIM_DIR" || { echo "Failed to delete nvim directory"; exit 1; }
+                mkdir -p "$CONFIG_DIR" || { echo "Failed to create .config directory"; exit 1; }
+                echo ".config directory created."
+                break
                 ;;
             [Nn]* ) 
                 echo "Aborting installation."
                 exit 0
                 ;;
             * ) 
-                echo "Please answer yes or no."
-                exit 1
+                echo "Please answer with 'y' for yes or 'n' for no."
                 ;;
         esac
-    fi
-
-else
-    echo ".config directory does not exist."
-    
-    # Ask user if they want to create the .config directory
-    read -p "Do you want to create the .config directory? (y/n): " yn
-    case $yn in
-        [Yy]* )
-            mkdir -p "$CONFIG_DIR" || { echo "Failed to create .config directory"; exit 1; }
-            echo ".config directory created."
-            ;;
-        [Nn]* )
-            echo "Aborting installation."
-            exit 0
-            ;;
-        * )
-            echo "Please answer yes or no."
-            exit 1
-            ;;
-    esac
+    done
 fi
+
+echo "Ready to proceed with Awesome Vim installation!"
 
 # Clone Awesome Vim configuration into .config/nvim
 echo "Cloning Awesome Vim..."
@@ -109,3 +116,5 @@ git clone https://github.com/PythonHacker24/awesomevim.git "$NVIM_DIR" || { echo
 echo "Running PackerSync..."
 nvim -c 'luafile ~/.config/nvim/custom/packer.lua' -c 'PackerSync' -c 'autocmd User PackerComplete quitall'
 echo "Plugins installed successfully!"
+
+echo "Awesome Vim installed successfully. Fire it up with command: nvim"
