@@ -65,7 +65,8 @@ if [[ -d "$CONFIG_DIR" ]]; then
         
         # Ask the user if they want to delete the existing nvim directory and install Awesome Vim
         while true; do
-            read -p "Do you want to delete the existing nvim configuration and install Awesome Vim? (y/n): " yn
+            read "Do you want to delete the existing nvim configuration and install Awesome Vim? (y/n)"
+            read  yn
             case $yn in
                 [Yy]* ) 
                     echo "Deleting existing nvim configuration..."
@@ -89,7 +90,8 @@ else
 
     # Ask the user if they want to create the .config directory
     while true; do
-        read -p "Do you want to create the .config directory? (y/n): " yn
+        echo "Do you want to create the .config directory? (y/n)"
+        read yn
         case $yn in
             [Yy]* ) 
                 mkdir -p "$CONFIG_DIR" || { echo "Failed to create .config directory"; exit 1; }
