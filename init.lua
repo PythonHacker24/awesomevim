@@ -14,6 +14,8 @@ require "custom.set"
 require "config.telescope"
 require "config.treesitter"
 require "config.lsp"
+require "custom.latex"
+require "custom.null-ls"
 
 -- Undo Configuration
 vim.opt.undofile = true

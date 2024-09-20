@@ -80,5 +80,14 @@ return require('packer').startup(function(use)
         require"startup".setup()
       end
     },
+    
+    -- Add null-ls plugin
+    use {
+        'jose-elias-alvarez/null-ls.nvim',
+        requires = { 'nvim-lua/plenary.nvim' }
+    },
+
+    -- Optionally: Add prettier for JS/TS/HTML/CSS formatting
+    use 'prettier/vim-prettier'
 }
 end)
