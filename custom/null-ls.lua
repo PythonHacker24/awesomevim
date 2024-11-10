@@ -7,6 +7,9 @@ null_ls.setup({
     null_ls.builtins.formatting.black,     -- Python
     null_ls.builtins.formatting.stylua,    -- Lua
     null_ls.builtins.formatting.clang_format, -- C, C++
+    null_ls.builtins.formatting.htmlbeautifier.with({
+      filetypes = { "html", "htm", "rust", "golang" },  -- Handle both .html and .htm files
+    }),
   },
 })
 

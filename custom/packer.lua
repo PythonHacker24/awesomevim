@@ -88,6 +88,11 @@ return require('packer').startup(function(use)
     },
 
     -- Optionally: Add prettier for JS/TS/HTML/CSS formatting
-    use 'prettier/vim-prettier'
+    use { 'prettier/vim-prettier' },
+    
+    -- Gruvbox Theme
+    use { 'morhetz/gruvbox' },
+
+    use { 'tribela/transparent.nvim' }
 }
 end)

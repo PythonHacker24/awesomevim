@@ -22,7 +22,12 @@ vim.opt.undofile = true
 vim.opt.undodir = os.getenv("HOME") .. "/.undodir"
 
 -- Default Theme - Catppuccin Mocha 
-vim.cmd.colorscheme "catppuccin-mocha"
+-- vim.cmd.colorscheme "catppuccin-mocha"
+
+vim.o.background = "dark"
+vim.g.gruvbox_contrast_dark = "hard"
+vim.cmd.colorscheme("gruvbox")
+
 
 -- Configure Smooth Scrolling 
 require('neoscroll').setup({
@@ -49,10 +54,6 @@ vim.g.loaded_netrwPlugin = 1
 -- optionally enable 24-bit colour
 vim.opt.termguicolors = true
 
--- empty setup using defaults
-require("nvim-tree").setup()
-
--- OR setup with some options
 require("nvim-tree").setup({
   sort = {
     sorter = "case_sensitive",
@@ -69,15 +70,15 @@ require("nvim-tree").setup({
 })
 
 -- NeoVim Terminal Configuration
-require("toggleterm").setup{
-	function(term)
-    	if term.direction == "horizontal" then
-      		return 15
-    	elseif term.direction == "vertical" then
-      		return vim.o.columns * 0.4
-    	end
-	end,
-	direction = 'float',
+ require("toggleterm").setup{
+ 	function(term)
+     	if term.direction == "horizontal" then
+       		return 15
+     	elseif term.direction == "vertical" then
+       		return vim.o.columns * 0.4
+     	end
+ 	end,
+ 	direction = 'float',
 }
 
 -- Status Line 
