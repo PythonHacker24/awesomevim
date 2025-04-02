@@ -18,7 +18,7 @@ require('mason-lspconfig').setup({
   },
 })
 
-lsp_zero.setup_servers({'eslint', 'rust_analyzer', 'golangci_lint_ls'})
+lsp_zero.setup_servers({'eslint', 'rust_analyzer'})
 
 local cmp = require('cmp')
 
@@ -52,3 +52,6 @@ cmp.setup({
     end,
   },
 })
+
+-- Custom Added - lsp for Golang - Works like charm! 
+require('lspconfig').gopls.setup {}

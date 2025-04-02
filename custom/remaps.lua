@@ -13,4 +13,8 @@ vim.keymap.set("n", "<C-n>", function()
 end)
 
 vim.keymap.set("n", "<leader>h", vim.cmd.ToggleTerm)
+vim.keymap.set("n", "<leader>tt", vim.cmd.TransparentToggle)
 
+local builtin = require('telescope.builtin')
+
+vim.keymap.set('n', '<C-p>', builtin.git_files, {})

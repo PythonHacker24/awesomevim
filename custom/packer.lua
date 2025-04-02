@@ -80,7 +80,7 @@ return require('packer').startup(function(use)
         require"startup".setup()
       end
     },
-    
+
     -- Add null-ls plugin
     use {
         'jose-elias-alvarez/null-ls.nvim',
@@ -88,6 +88,31 @@ return require('packer').startup(function(use)
     },
 
     -- Optionally: Add prettier for JS/TS/HTML/CSS formatting
-    use 'prettier/vim-prettier'
+    use "prettier/vim-prettier",
+
+    use "morhetz/gruvbox",
+
+    -- Auto-completion for flutter
+    use {
+        'hrsh7th/nvim-cmp',
+        requires = {
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-path',
+            'hrsh7th/cmp-cmdline',
+            'hrsh7th/vim-vsnip',
+        }
+    },
+
+    -- Flutter-specific support
+    use {
+        'akinsho/flutter-tools.nvim',
+        requires = {
+            'nvim-lua/plenary.nvim',
+            'stevearc/dressing.nvim', -- optional, for better UI
+        }
+    },
+
+    use { 'tribela/transparent.nvim' }
 }
 end)
