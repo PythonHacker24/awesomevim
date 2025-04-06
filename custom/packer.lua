@@ -26,20 +26,28 @@ return require('packer').startup(function(use)
 	use 'nvim-treesitter/playground'
 
 	-- LSP config 
-	use {
-		'VonHeikemen/lsp-zero.nvim',
-		branch = 'v3.x',
-		requires = {
-			--- Uncomment the two plugins below if you want to manage the language servers from neovim
-			-- {'williamboman/mason.nvim'},
-			-- {'williamboman/mason-lspconfig.nvim'},
+	-- use {
+-- 		'VonHeikemen/lsp-zero.nvim',
+-- 		branch = 'v3.x',
+-- 		requires = {
+-- 			--- Uncomment the two plugins below if you want to manage the language servers from neovim
+-- 			-- {'williamboman/mason.nvim'},
+-- 			-- {'williamboman/mason-lspconfig.nvim'},
+-- 
+-- 			{'neovim/nvim-lspconfig'},
+-- 			{'hrsh7th/nvim-cmp'},
+-- 			{'hrsh7th/cmp-nvim-lsp'},
+-- 			{'L3MON4D3/LuaSnip'},
+-- 		}
+-- 	}
 
-			{'neovim/nvim-lspconfig'},
-			{'hrsh7th/nvim-cmp'},
-			{'hrsh7th/cmp-nvim-lsp'},
-			{'L3MON4D3/LuaSnip'},
-		}
-	}
+    use({
+        "jose-elias-alvarez/null-ls.nvim",
+        config = function()
+            require("null-ls").setup()
+        end,
+        requires = { "nvim-lua/plenary.nvim" },
+    });
 
 	-- Mason Config 
 	use {
@@ -93,6 +101,12 @@ return require('packer').startup(function(use)
         }
     },
 
-    use 'mbbill/undotree'
+    use 'mbbill/undotree',
+    use 'ray-x/go.nvim',
+    use 'ray-x/guihua.lua', -- recommended if need floating window support
+
+    use "hrsh7th/cmp-nvim-lsp", -- LSP completion source
+    use "L3MON4D3/LuaSnip",     -- Optional snippet engine
+    use "saadparwaiz1/cmp_luasnip"
 }
 end)

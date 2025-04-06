@@ -8,22 +8,28 @@ vim.o.relativenumber = true
 -- Enable absolute line numbers
 vim.o.number = true
 
--- Required lua modules
-require "custom.remaps"
-require "custom.set"
-require "config.telescope"
-require "config.treesitter"
-require "config.lsp"
-require "custom.latex"
-require "custom.colors"
--- require "custom.null-ls"
-
 -- Undo Configuration
 vim.opt.undofile = true
 vim.opt.undodir = os.getenv("HOME") .. "/.undodir"
 
--- Theme
--- vim.cmd.colorscheme "gruvbox"
+-- disable netrw at the very start of your init.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- optionally enable 24-bit colour
+vim.opt.termguicolors = true
+
+require "config.telescope"
+require "config.treesitter"
+require "config.lsp"
+
+require "custom.remaps"
+require "custom.set"
+require "custom.latex"
+require "custom.colors"
+require "custom.golang"
+
+require("mason").setup()
 
 -- Configure Smooth Scrolling
 require('neoscroll').setup({
@@ -43,17 +49,6 @@ require('neoscroll').setup({
     performance_mode = false,    -- Disable "Performance Mode" on all buffers.
 })
 
--- disable netrw at the very start of your init.lua
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
--- optionally enable 24-bit colour
-vim.opt.termguicolors = true
-
--- empty setup using defaults
-require("nvim-tree").setup()
-
--- OR setup with some options
 require("nvim-tree").setup({
     sort = {
         sorter = "case_sensitive",
@@ -69,7 +64,6 @@ require("nvim-tree").setup({
     },
 })
 
--- NeoVim Terminal Configuration
 require("toggleterm").setup {
     function(term)
         if term.direction == "horizontal" then
@@ -81,7 +75,6 @@ require("toggleterm").setup {
     direction = 'float',
 }
 
--- Status Line
 require('lualine').setup {
     options = {
         icons_enabled = true,
@@ -123,5 +116,28 @@ require('lualine').setup {
     extensions = {}
 }
 
--- Startup
+local cmp = require("cmp")
+local lspconfig = require("lspconfig")
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+lspconfig.gopls.setup({
+  capabilities = capabilities,
+})
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      require("luasnip").lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ["<Tab>"] = cmp.mapping.confirm({ select = true }),
+    ["<C-Space>"] = cmp.mapping.complete(),
+  }),
+  sources = {
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
+  },
+})
+
 require("startup").setup({ theme = "dashboard" })
