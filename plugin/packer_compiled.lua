@@ -119,11 +119,6 @@ _G.packer_plugins = {
     path = "/Users/adityapatil/.local/share/nvim/site/pack/packer/start/gruvbox",
     url = "https://github.com/morhetz/gruvbox"
   },
-  harpoon = {
-    loaded = true,
-    path = "/Users/adityapatil/.local/share/nvim/site/pack/packer/start/harpoon",
-    url = "https://github.com/ThePrimeagen/harpoon"
-  },
   ["lsp-zero.nvim"] = {
     loaded = true,
     path = "/Users/adityapatil/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim",
@@ -153,11 +148,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/adityapatil/.local/share/nvim/site/pack/packer/start/nord-vim",
     url = "https://github.com/arcticicestudio/nord-vim"
-  },
-  ["null-ls.nvim"] = {
-    loaded = true,
-    path = "/Users/adityapatil/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
-    url = "https://github.com/jose-elias-alvarez/null-ls.nvim"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -217,10 +207,10 @@ _G.packer_plugins = {
     path = "/Users/adityapatil/.local/share/nvim/site/pack/packer/start/toggleterm.nvim",
     url = "https://github.com/akinsho/toggleterm.nvim"
   },
-  ["transparent.nvim"] = {
+  undotree = {
     loaded = true,
-    path = "/Users/adityapatil/.local/share/nvim/site/pack/packer/start/transparent.nvim",
-    url = "https://github.com/tribela/transparent.nvim"
+    path = "/Users/adityapatil/.local/share/nvim/site/pack/packer/start/undotree",
+    url = "https://github.com/mbbill/undotree"
   },
   ["vim-prettier"] = {
     loaded = true,

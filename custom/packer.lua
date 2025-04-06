@@ -60,13 +60,7 @@ return require('packer').startup(function(use)
 	  require("toggleterm").setup()
 	end},
 
-    -- Harpoon  
-    use "nvim-lua/plenary.nvim", -- don't forget to add this one if you don't have it yet!
-    use {
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-        requires = { {"nvim-lua/plenary.nvim"} }
-    },
+    use "nvim-lua/plenary.nvim",
 
     use {
       'nvim-lualine/lualine.nvim',
@@ -81,11 +75,6 @@ return require('packer').startup(function(use)
       end
     },
 
-    -- Add null-ls plugin
-    use {
-        'jose-elias-alvarez/null-ls.nvim',
-        requires = { 'nvim-lua/plenary.nvim' }
-    },
 
     -- Optionally: Add prettier for JS/TS/HTML/CSS formatting
     use "prettier/vim-prettier",
@@ -104,15 +93,6 @@ return require('packer').startup(function(use)
         }
     },
 
-    -- Flutter-specific support
-    use {
-        'akinsho/flutter-tools.nvim',
-        requires = {
-            'nvim-lua/plenary.nvim',
-            'stevearc/dressing.nvim', -- optional, for better UI
-        }
-    },
-
-    use { 'tribela/transparent.nvim' }
+    use 'mbbill/undotree'
 }
 end)
