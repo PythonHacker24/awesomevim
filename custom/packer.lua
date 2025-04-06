@@ -100,6 +100,8 @@ return require('packer').startup(function(use)
             'hrsh7th/vim-vsnip',
         }
     },
+    
+    use 'lewis6991/hover.nvim', 
 
     use 'mbbill/undotree',
     use 'ray-x/go.nvim',
