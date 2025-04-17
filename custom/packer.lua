@@ -109,6 +109,14 @@ return require('packer').startup(function(use)
 
     use "hrsh7th/cmp-nvim-lsp", -- LSP completion source
     use "L3MON4D3/LuaSnip",     -- Optional snippet engine
-    use "saadparwaiz1/cmp_luasnip"
+    use "saadparwaiz1/cmp_luasnip",
+
+    use {
+        "leoluz/nvim-dap-go",
+        requires = "mfussenegger/nvim-dap",
+        config = function()
+            require("dap-go").setup()
+        end
+    }
 }
 end)

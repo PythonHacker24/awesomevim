@@ -26,5 +26,6 @@ require "custom.lualine"
 require "custom.hover"
 
 require("mason").setup()
+require('dap-go').setup()
 
 require("startup").setup({ theme = "dashboard" })
