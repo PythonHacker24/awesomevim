@@ -1,6 +1,3 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 vim.keymap.set("n", "<leader>", "<Nop>", { noremap = true, silent = true })
 
 -- Nvim Tree Toggling
@@ -24,4 +21,9 @@ vim.keymap.set('n', '<leader>m', vim.cmd.UndotreeToggle)
 -- For formating code
 vim.keymap.set("n", "<leader>F", function()
     vim.lsp.buf.format { async = true }
+end, { noremap = true, silent = true })
+
+vim.keymap.set('n', '<leader>_', function() require('Comment.api').toggle.linewise.current() end, { noremap = true, silent = true })
+vim.keymap.set('v', '<leader>_', function()
+  require('Comment.api').toggle.linewise(vim.fn.visualmode())
 end, { noremap = true, silent = true })

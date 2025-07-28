@@ -49,3 +49,21 @@ lspconfig.lua_ls.setup {
     end,
     -- other settings
 }
+
+vim.diagnostic.config({
+  virtual_text = false, -- optional: disable inline text
+  float = {
+    border = "rounded",
+    max_width = 80,
+    focusable = true,
+    source = "always",
+    header = "",
+    prefix = "",
+  },
+})
+
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    vim.diagnostic.open_float(nil, { focusable = false })
+  end,
+})
