@@ -20,6 +20,11 @@ local defaults = {
     "that change state. End with open questions, if any.",
   }, " "),
 
+  -- Extra context appended to every session's system prompt so the agent
+  -- knows it runs inside Neovim and what the user's keybindings are.
+  -- true = built-in context (lua/pi/context.lua), string = custom, false = off
+  agent_context = true,
+
   render = {
     show_thinking = true,
     show_tool_output = false, -- compact: only tool name + status; errors always show

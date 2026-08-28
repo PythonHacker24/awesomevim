@@ -46,6 +46,11 @@ function M.new(opts)
       "--append-system-prompt", self.cfg.plan_prompt,
     })
   end
+  if self.cfg.agent_context then
+    local ctx = self.cfg.agent_context
+    if ctx == true then ctx = require("pi.context").text end
+    vim.list_extend(cmd, { "--append-system-prompt", ctx })
+  end
 
   self.rpc = rpc.new({
     cmd = cmd,
