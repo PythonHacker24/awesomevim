@@ -1,34 +1,35 @@
-local home = os.getenv("HOME")
-local config = home .. '/.config/nvim'
-package.path = package.path .. ';' .. config .. '/?.lua;' .. config .. '/?/init.lua'
+-- ============================================================================
+-- AwesomeVim entry point
+--
+--   lua/core/     options, keymaps, colorscheme, plugin declarations
+--   lua/plugins/  per-plugin configuration
+--   lua/pi/       pi agent chat sidebar (agentic coding assistant)
+--   lua/extras/   small utilities (latex rendering, ...)
+-- ============================================================================
 
+-- leader must be set before any keymaps or plugins load
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.o.relativenumber = true
-vim.o.number = true
-vim.opt.undofile = true
-vim.opt.undodir = os.getenv("HOME") .. "/.undodir"
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-vim.opt.termguicolors = true
 
-require "config.treesitter"
-require "config.neoscroll"
-require "custom.nvim-tree"
+-- core
+require("core.options")
+require("core.colors")
 
-require "custom.set"
-require "custom.latex"
-require "custom.colors"
-require "custom.golang"
-require "custom.toggleterm"
-require "custom.lualine"
-require "custom.hover"
+-- plugins
+require("plugins.treesitter")
+require("plugins.neoscroll")
+require("plugins.nvim-tree")
+require("plugins.toggleterm")
+require("plugins.lualine")
+require("plugins.hover")
+require("plugins.lsp")
+require("plugins.startup")
 
-require("mason").setup()
-require('dap-go').setup()
+-- keymaps (after plugins, since some maps reference plugin modules)
+require("core.keymaps")
 
-require "config.lsp"
-require "config.telescope"
-require "custom.remaps"
+-- extras
+require("extras.latex")
 
-require("startup").setup({ theme = "dashboard" })
+-- pi agent chat sidebar
+require("pi").setup({})

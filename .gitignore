@@ -1,1 +1,7 @@
-plugin/packer_compliled.lua
+plugin/packer_compiled.lua
+.DS_Store
+
+# pi development scratch (plans, local pi project files)
+plan.md
+*.plan.md
+.pi/

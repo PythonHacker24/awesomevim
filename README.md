@@ -1,133 +1,309 @@
-# AwesomeVim - NeoVim Config for Power Users
+# AwesomeVim
 
-![Copy of White Minimalist Profile LinkedIn Banner](https://github.com/user-attachments/assets/4e42b971-35c0-4a91-98d0-f108e2e440f1)
+A fast, modern Neovim configuration with a built-in AI coding agent. It combines a lean plugin set, coherent keybindings, and a Cursor-style agent sidebar powered by [pi](https://github.com/earendil-works/pi), so you can chat with an agent that reads, edits, and runs code in your project while you keep editing as usual.
 
-A customizable, fast, and modern Neovim configuration built for an optimal coding experience. Awesome Vim combines powerful features, intuitive keybindings, and popular plugins to create a delightful coding environment. Built upon Vanilla NeoVim, it's fast and flexible for customizations. Its one command installation allows busy developers to set up a fully functional NeoVim code editor on the go without manually installing the most and leverage more than what Vanilla NeoVim can provide. 
+## Highlights
 
-## Installation 
+- **Agent sidebar (pi)**: a chat panel where AI agents do real work in your codebase
+- **Blazingly fast**: minimal plugins, no bloat, quick startup
+- **LSP ready**: completion, diagnostics, formatting, and go-to navigation out of the box
+- **Treesitter**: modern syntax highlighting and parsing
+- **Telescope**: fuzzy finding for files, text, buffers, and symbols
+- **Coherent keybindings**: mnemonic namespaces designed to build muscle memory
+- **One command installation**: a single script sets up everything
 
-Awesome Vim has minimal demands before getting started. You must have the following things installed on your system. 
+## The Agent Sidebar
 
-- **Git**: Version control system
-- **Bash**: Unix shell and command language
-- **Curl**: Command-line tool for transferring data with URLs
-- **GCC**: GNU Compiler Collection (for compiling plugins, etc.)
-- **NeoVim**: Version **0.5** or later (required for Lua-based configuration and plugins)
+The star of this config is `pi.nvim`, a hand-rolled integration of the pi coding agent, built into `lua/pi/`. It gives you an experience similar to Cursor, inside Neovim.
 
-All of the packages are available in most package managers, such as Apt, Brew, Pacman, etc. 
+### What makes it agentic
 
-### Single-line Command
+The sidebar is not a chatbot that only answers questions. Each tab runs a full autonomous coding agent that can:
 
-Copy and Paste this single-line command into your terminal. It's a bash script compatible with Linux, MacOS, and WSL on Windows. 
+- **Read your code**: it explores the project with read, grep, find, and ls tools
+- **Edit files directly**: it writes and patches files in your working tree
+- **Run shell commands**: it executes builds, tests, and scripts, and reacts to their output
+- **Work in multi-step loops**: it plans, acts, observes results, and continues until the task is done
+- **Stream everything live**: you watch tool calls and reasoning appear in real time
+
+Every tool call shows up as a compact status line in the transcript:
 
 ```
-curl https://raw.githubusercontent.com/PythonHacker24/awesomevim/main/install.sh | bash 
+✓ read   src/main.go
+✓ bash   go test ./...
+✗ edit   src/api.go
+│ failed: no match
+▶ grep   TODO
 ```
-Note: This script is under development and may face issues. In that case, use the source code method or create an issue in the [issues tab](https://github.com/PythonHacker24/awesomevim/issues)
 
-### Through Source Code 
+### Non-blocking by design
 
-1. Clone the repository and save it as .config/nvim
-2. Install Packer: `git clone --depth 1 https://github.com/wbthomason/packer.nvim\
- ~/.local/share/nvim/site/pack/packer/start/packer.nvim`. For more info, visit [Packer GitHub](https://github.com/wbthomason/packer.nvim)
-3. Navigate to .config/nvim/custom and do `nv packer.lua`. Ignore all the errors. 
-4. So `:so` to source the file.
-5. Do `:PackerSync` to install and sync all the plugins. Done!
+The agent runs as a background process, completely decoupled from the UI:
 
-## Features 
+- You can close the sidebar while the agent works, it keeps going
+- You can edit, navigate, and search files while tasks run
+- Multiple agents can run in parallel, one per tab
+- Background tabs show a working indicator, so nothing gets lost
 
-- Blazingly Fast: Packed with the most optimal stuff and minimal plugins installed to make it bloat-free. You can add as many plugins as you want through Packer in an easy way.
-- LSP Ready: Built-in support for Language Server Protocol for auto-completion, linting, and more.
-- Tree-sitter Support: Enhanced syntax highlighting and code folding.
-- Integrated Git: Seamless git integration with fugitive and other git utilities.
-- Telescope: Fuzzy finder for files, buffers, and much more.
-- Beautiful Theme: Uses a modern, eye-friendly color scheme like Catpuccin Mocha and Nord.
+### Agent mode and Plan mode
 
-## Screenshots 
+Every tab runs in one of two modes:
 
-<img width="1470" alt="Screenshot 2024-06-21 at 13 01 01" src="https://github.com/user-attachments/assets/738e66ba-6483-4e8a-8590-d5e56cb17ef8">
+- **Agent mode** (default): full tool access, the agent reads, edits, and executes
+- **Plan mode**: read-only tools plus a planning prompt, the agent investigates the codebase and produces a step-by-step plan without touching any files
 
-<img width="1470" alt="Screenshot 2024-06-22 at 18 10 41" src="https://github.com/user-attachments/assets/5e977765-4ed3-42f9-bd61-ab4fc42437b9">
+Toggle with `<Space>ap`. The conversation is preserved when switching modes.
 
-## Default Plugins Installed 
+### Tabs, sessions, and history
 
-All the plugins are managed with Packer.nvim. Here are a few must-have plugins installed on Awesome Vim. 
+- Each tab is an independent pi session with its own process and context
+- Create tabs with `<Space>an`, close with `<Space>ax`, cycle with `<Space>a]` and `<Space>a[`
+- Closed tabs are saved to history, reopen any past session with `<Space>ah` and continue where you left off
+- Sessions persist on disk in pi's own session format
 
-## Key Plugins
+### Model switching
 
-Here’s an overview of the main plugins included in this configuration:
+- `<Space>am` opens a model picker listing every model you have configured in pi
+- `:Pi cycle-model` cycles through available models
+- Model choice is per tab, so different tabs can use different models
 
-- **[packer.nvim](https://github.com/wbthomason/packer.nvim)**: Plugin manager for NeoVim.
-- **[nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)**: Enhanced syntax highlighting, powered by Tree-sitter.
-- **[Telescope](https://github.com/nvim-telescope/telescope.nvim)**: Fuzzy file finder and more.
-- **[neoscroll.nvim](https://github.com/karb94/neoscroll.nvim)**: Smooth scrolling experience.
-- **[lsp-zero](https://github.com/VonHeikemen/lsp-zero.nvim)**: LSP configuration with autocompletion.
-- **[nvim-tree](https://github.com/nvim-tree/nvim-tree.lua)**: File explorer.
-- **[toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)**: Toggleable terminal inside NeoVim.
-- **[harpoon](https://github.com/ThePrimeagen/harpoon)**: Quick navigation between files.
-- **[lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)**: Statusline plugin.
-- **[startup.nvim](https://github.com/startup-nvim/startup.nvim)**: Startup screen customizer.
-- **Themes**: Choose between [catppuccin](https://github.com/catppuccin/nvim) or [nord-vim](https://github.com/arcticicestudio/nord-vim) for modern color schemes.
+### Markdown and code rendering
 
-## Adding More Packages
+The transcript renders as markdown with treesitter highlighting. Fenced code blocks get full syntax highlighting for their language, and render-markdown.nvim decorates headings, lists, and inline code.
 
-This configuration uses [packer.nvim](https://github.com/wbthomason/packer.nvim) as the plugin manager. To add more packages or plugins, follow these steps:
+### Agent commands
 
-1. **Open your `init.lua` or `plugins.lua` file** where the plugins are managed.
+| Command | Action |
+|---|---|
+| `:Pi` | toggle the sidebar |
+| `:Pi focus` | open and focus the chat input |
+| `:Pi new [name]` | new tab (new session) |
+| `:Pi close` | close current tab (saved to history) |
+| `:Pi next` / `:Pi prev` | cycle tabs |
+| `:Pi tab <n>` | jump to tab n |
+| `:Pi history` | reopen a past session |
+| `:Pi model` | model picker |
+| `:Pi cycle-model` | cycle models |
+| `:Pi mode` | toggle agent/plan mode |
+| `:Pi abort` | abort the current run |
+| `:Pi send <text>` | send a prompt programmatically |
 
-2. **Add your desired plugin** inside the `packer.startup(function(use)` block. For example, to add a new plugin:
+### Agent configuration
 
-   ```lua
-   use 'author/plugin-name'
-   ```
-3. **Open custom/packer.lua with Awesome Vim** and source the fil:
-  ```
-  :so
-  ```
-4. **Finally do PackerSynce**:
-  ```
-  :PackerSync
-  ```
+Configure the sidebar in `init.lua`:
 
-## Key Bindings
+```lua
+require("pi").setup({
+    side = "right",           -- "left" or "right"
+    width = 64,               -- sidebar width
+    auto_focus = false,       -- focus input when opening
+    default_mode = "agent",   -- "agent" or "plan"
+    default_model = nil,      -- e.g. "anthropic/claude-sonnet-4:medium"
+    render = {
+        show_thinking = true,     -- show reasoning blocks
+        show_tool_output = false, -- compact tool lines (errors always show)
+        max_tool_lines = 12,      -- output tail length
+    },
+})
+```
 
-This configuration includes custom keybindings to enhance productivity in NeoVim:
+## Installation
 
-| Keybinding           | Action                                     |
-|----------------------|--------------------------------------------|
-| `<leader>` (Space)   | The leader key is set to `Space`           |
-| `<leader>f`          | Open Telescope (Fuzzy Finder)              |
-| `<leader>h`          | Toggle Terminal (ToggleTerm)               |
-| `<C-n>`              | Toggle NvimTree (File Explorer)            |
-| `<C-w>v`             | Split window vertically                    |
-| `<C-w>n`             | Split window horizontally                  |
-| `<C-u>`              | Scroll up half a page smoothly             |
-| `<C-d>`              | Scroll down half a page smoothly           |
-| `<C-b>`              | Scroll up one full page smoothly           |
-| `<C-f>`              | Scroll down one full page smoothly         |
-| `<C-y>`              | Scroll up one line smoothly                |
-| `<C-e>`              | Scroll down one line smoothly              |
-| `zt`                 | Smoothly scroll to the top of the screen   |
-| `zz`                 | Smoothly center the cursor on the screen   |
-| `zb`                 | Smoothly scroll to the bottom of the screen|
+### Requirements
+
+- **Neovim** 0.10 or later
+- **Git**
+- **A C compiler** (gcc or clang, for treesitter parsers)
+- **Node.js and npm** (for the pi coding agent)
+- **An API key** for at least one LLM provider (Anthropic, OpenAI, Google, and others)
+
+### One command install
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/PythonHacker24/awesomevim/main/install.sh | bash
+```
+
+The script backs up any existing config, clones the repo, installs all plugins and treesitter parsers headlessly, and installs the pi CLI if npm is available.
+
+After installing, authenticate pi once:
+
+```bash
+pi   # follow the login prompts, or set ANTHROPIC_API_KEY / OPENAI_API_KEY etc.
+```
+
+### Manual install
+
+```bash
+# 1. clone the config
+git clone https://github.com/PythonHacker24/awesomevim.git ~/.config/nvim
+
+# 2. install packer
+git clone --depth 1 https://github.com/wbthomason/packer.nvim \
+    ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
+# 3. install plugins
+nvim --headless -c "lua require('core.packer')" \
+    -c "autocmd User PackerComplete quitall" -c "PackerSync"
+
+# 4. install the pi coding agent
+npm install -g @earendil-works/pi-coding-agent
+```
+
+## Keybindings
+
+Leader is `Space`. The scheme is mnemonic: **leader, namespace letter, action letter**. The most used actions get instant chords.
+
+### Instant habits
+
+| Key | Action |
+|---|---|
+| `<Space><Space>` | find files |
+| `Ctrl-\` | toggle floating terminal (works inside the terminal too) |
+| `Ctrl-n` | toggle file tree |
+| `<Space>aa` | toggle agent sidebar |
+
+### `<Space>f` find (telescope)
+
+| Key | Action |
+|---|---|
+| `<Space>ff` | files |
+| `<Space>fg` | live grep |
+| `<Space>fw` | grep word under cursor |
+| `<Space>fb` | buffers |
+| `<Space>fr` | recent files |
+| `<Space>fs` | fuzzy search in buffer |
+| `<Space>fd` | diagnostics |
+| `<Space>fh` | help tags |
+| `<Space>fc` | commands |
+
+### `g` goto (LSP)
+
+| Key | Action |
+|---|---|
+| `gd` | definition |
+| `gr` | references |
+| `gi` | implementation |
+| `gy` | type definition |
+| `K` | hover documentation |
+
+### `<Space>s` symbols
+
+| Key | Action |
+|---|---|
+| `<Space>ss` | document symbols |
+| `<Space>sw` | workspace symbols |
+
+### `<Space>t` terminal
+
+| Key | Action |
+|---|---|
+| `<Space>tt` | floating terminal |
+| `<Space>th` | horizontal terminal |
+| `<Space>tv` | vertical terminal |
+| `<Esc><Esc>` | (in terminal) back to normal mode |
+
+### `<Space>a` agent (pi)
+
+| Key | Action |
+|---|---|
+| `<Space>aa` | toggle sidebar |
+| `<Space>ai` | focus chat input |
+| `<Space>an` | new tab (session) |
+| `<Space>ax` | close tab (saved to history) |
+| `<Space>a]` / `<Space>a[` | next / previous tab |
+| `<Space>ah` | reopen session from history |
+| `<Space>am` | model picker |
+| `<Space>ap` | toggle plan/agent mode |
+
+Inside the sidebar:
+
+| Key | Action |
+|---|---|
+| `<CR>` | send message (in input box) |
+| `Ctrl-j` | newline in input |
+| `Ctrl-c` | abort the current run |
+| `q` | close sidebar |
+| `i` | jump to input |
+| `gt` / `gT` | next / previous tab |
+
+### Misc
+
+| Key | Action |
+|---|---|
+| `<Space>e` | focus file tree |
+| `<Space>u` | undotree |
+| `<Space>F` | LSP format |
+| `<Space>/` | toggle comment (normal and visual) |
+| `<Space>mp` | toggle markdown rendering |
+
+### Smooth scrolling (neoscroll)
+
+| Key | Action |
+|---|---|
+| `Ctrl-u` / `Ctrl-d` | half page up / down |
+| `Ctrl-b` / `Ctrl-f` | full page up / down |
+| `zt` / `zz` / `zb` | scroll cursor to top / center / bottom |
+
+## Structure
+
+```
+init.lua              entry point
+install.sh            one command installer
+lua/
+  core/
+    options.lua       editor options
+    keymaps.lua       all keybindings
+    colors.lua        colorscheme with persistence
+    packer.lua        plugin declarations
+  plugins/            per-plugin configuration
+    treesitter.lua, telescope via keymaps, lsp.lua, nvim-tree.lua,
+    toggleterm.lua, lualine.lua, neoscroll.lua, hover.lua, startup.lua
+  pi/                 the agent sidebar plugin
+    init.lua          setup, :Pi command, keymaps
+    rpc.lua           JSONL RPC client for pi subprocesses
+    session.lua       one tab = one independent agent process
+    manager.lua       tabs, history, mode and model actions
+    ui.lua            sidebar windows, tabline, input
+    render.lua        transcript to markdown rendering
+    history.lua       persistent session index
+  extras/
+    latex.lua         :Renderlatex command
+```
+
+## Plugins
+
+Managed with [packer.nvim](https://github.com/wbthomason/packer.nvim):
+
+- [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) fuzzy finder
+- [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) syntax highlighting
+- [mason.nvim](https://github.com/williamboman/mason.nvim) LSP server installer
+- [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) completion
+- [nvim-tree](https://github.com/nvim-tree/nvim-tree.lua) file explorer
+- [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) terminal
+- [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) statusline
+- [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) markdown decorations
+- [Comment.nvim](https://github.com/numToStr/Comment.nvim) commenting
+- [undotree](https://github.com/mbbill/undotree) undo history
+- [neoscroll.nvim](https://github.com/karb94/neoscroll.nvim) smooth scrolling
+- [go.nvim](https://github.com/ray-x/go.nvim) and [nvim-dap-go](https://github.com/leoluz/nvim-dap-go) Go development
+- [catppuccin](https://github.com/catppuccin/nvim) and [gruvbox](https://github.com/morhetz/gruvbox) themes
+
+### Adding plugins
+
+1. Add a `use { ... }` entry in `lua/core/packer.lua`
+2. Run `:lua require("core.packer")`
+3. Run `:PackerSync`
 
 ## Bug Reports
 
-If you encounter any issues or bugs while using this configuration, please follow these steps to report them:
+Open an issue in the [issues tab](https://github.com/PythonHacker24/awesomevim/issues) with:
 
-1. **Check Existing Issues**: Before opening a new issue, please check the [Issues](https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/issues) tab to see if the problem has already been reported.
+- steps to reproduce
+- error messages (`:messages` in Neovim)
+- your OS and Neovim version (`nvim --version`)
 
-2. **Provide Detailed Information**: When creating a new issue, please include the following details to help diagnose the problem:
-   - A clear and descriptive title.
-   - Steps to reproduce the issue.
-   - Any error messages or logs (you can check `:messages` in NeoVim).
-   - Your operating system and NeoVim version (`nvim --version`).
-   - A list of any modifications you made to the configuration.
-
-3. **Submit the Issue**: Once you've gathered the necessary information, open a [new issue](https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/issues/new) and provide all relevant details.
-
-This will help us to identify and fix the issue quickly. Pull requests are also welcome!
+Pull requests are welcome.
 
 ## License
-This project is licensed under the [MIT License](LICENSE). 
 
+This project is licensed under the [MIT License](LICENSE).

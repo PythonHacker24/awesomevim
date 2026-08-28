@@ -1,16 +1,15 @@
 local function render_latex(destination)
   local file = vim.fn.expand('%:p')
   local file_name = vim.fn.expand('%:t:r')
-  local default_destination = vim.fn.getcwd() .. "/" .. file_name .. ".pdf"
+  local compiled_pdf = vim.fn.expand('%:p:h') .. "/" .. file_name .. ".pdf"
 
-  destination = destination or default_destination
+  destination = destination or compiled_pdf
 
   local compile_cmd = "pdflatex -output-directory=" .. vim.fn.expand('%:p:h') .. " " .. file
   vim.fn.system(compile_cmd)
 
-  if pdf_file ~= destination then
-    local move_cmd = "mv " .. pdf_file .. " " .. destination
-    vim.fn.system(move_cmd)
+  if compiled_pdf ~= destination then
+    vim.fn.system("mv " .. compiled_pdf .. " " .. destination)
     print("PDF moved to: " .. destination)
   else
     print("PDF generated at: " .. destination)
